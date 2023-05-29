@@ -11,6 +11,7 @@
 #define NR_OF_READERS 2
 
 Servo entryGate;
+Servo exitGate;
 // int entryGatePos = 0;
 
 byte ssPins[] = {SS_1_PIN, SS_2_PIN};
@@ -29,16 +30,17 @@ void cycleGate(int id)
   if (id == 0)
   {
     gate = entryGate;
-  }else{
-    // gate = exitGate;
   }
-  
+  else
+  {
+    gate = exitGate;
+  }
 
-  int pos = 0; 
+  int pos = 0;
   for (pos = 0; pos <= 90; pos += 1)
   {
     gate.write(pos); // tell servo to go to position in variable 'pos'
-    delay(15);                // waits 15ms for the servo to reach the position
+    delay(15);       // waits 15ms for the servo to reach the position
   }
   delay(1000);
 
@@ -85,6 +87,7 @@ void setup()
   Serial.begin(115200); // Initialize serial communications with the PC
   // Servo init
   entryGate.attach(13);
+  exitGate.attach(13);
 
   // WIFI CONNECTION
 
@@ -129,7 +132,7 @@ void loop()
 
       Serial.print(F("Reader "));
       Serial.print(reader);
-      cycleGate(reader); // cycle the motor 
+      cycleGate(reader); // cycle the motor
       // Show some details of the PICC (that is: the tag/card)
       Serial.print(F(": Card UID:"));
       // dump_byte_array(mfrc522[reader].uid.uidByte, mfrc522[reader].uid.size);
